@@ -221,42 +221,50 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-white shadow-sm py-6 px-8">
-        <div className="max-w-[1800px] mx-auto">
-          <h1 className="text-3xl font-bold text-gray-900">Multi-LLM Discussion System</h1>
-          <p className="text-gray-600 mt-1">Orchestrated discussions between LLMs</p>
+    <div className="min-h-screen flex flex-col p-6 gap-6">
+      {/* Header with Glassmorphism */}
+      <header className="relative backdrop-blur-md bg-white/80 border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-indigo-500/10"></div>
+        <div className="relative px-8 py-6">
+          <div className="max-w-[1800px] mx-auto">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2 tracking-tight">
+              Multi-LLM Discussion System
+            </h1>
+            <p className="text-text-secondary text-lg">
+              Orchestrated AI conversations powered by multiple language models
+            </p>
+          </div>
         </div>
       </header>
 
       {/* Error Display */}
       {error && (
-        <div className="bg-red-50 px-8 py-4">
-          <div className="max-w-[1800px] mx-auto">
-            <p className="text-red-700 font-medium">⚠️ Error: {error}</p>
+        <div className="backdrop-blur-md bg-red-50 border border-red-200 rounded-xl px-6 py-4 shadow-lg">
+          <div className="max-w-[1800px] mx-auto flex items-center gap-3">
+            <span className="text-2xl">⚠️</span>
+            <p className="text-red-700 font-medium">Error: {error}</p>
           </div>
         </div>
       )}
 
-      {/* Main Content - Full Width Layout */}
-      <div className="flex-1 flex">
+      {/* Main Content - Modern Card Layout */}
+      <div className="flex-1 flex gap-6 min-h-0">
         {/* Left Sidebar - Configuration */}
-        <div className="w-80 bg-white shadow-sm p-6 overflow-y-auto">
+        <div className="w-96 backdrop-blur-md bg-white/80 border border-gray-200 rounded-2xl shadow-lg p-6 overflow-y-auto">
           <ConfigurationForm
             onStart={handleStart}
             disabled={status !== 'idle'}
           />
         </div>
 
-        {/* Right - Conversation Area (Full Width) */}
-        <div className="flex-1 flex flex-col">
+        {/* Right - Conversation Area */}
+        <div className="flex-1 flex flex-col backdrop-blur-md bg-white/80 border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
           {status !== 'idle' && (
             <>
               <div className="flex-1 overflow-hidden">
                 <DiscussionView messages={messages} participants={participants} />
               </div>
-              <div className="bg-white shadow-sm p-4">
+              <div className="border-t border-gray-200 bg-gray-50/50 p-6">
                 <div className="max-w-4xl mx-auto">
                   <InterventionInput
                     onSend={handleIntervention}
@@ -269,10 +277,16 @@ function App() {
             </>
           )}
           {status === 'idle' && (
-            <div className="flex-1 flex items-center justify-center">
-              <p className="text-gray-500 text-xl">
-                👈 Configure and start a discussion to see the conversation here
-              </p>
+            <div className="flex-1 flex items-center justify-center p-12">
+              <div className="text-center">
+                <div className="text-6xl mb-4">💬</div>
+                <p className="text-gray-700 text-xl font-semibold">
+                  Configure and start a discussion
+                </p>
+                <p className="text-gray-500 mt-2">
+                  Select your AI models and topic to begin
+                </p>
+              </div>
             </div>
           )}
         </div>
