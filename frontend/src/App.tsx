@@ -221,7 +221,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-6 gap-6">
+    <div className="h-screen flex flex-col p-6 gap-6">
       {/* Header with Glassmorphism */}
       <header className="relative backdrop-blur-md bg-white/80 border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-indigo-500/10"></div>
