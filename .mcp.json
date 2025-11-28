@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "playwright-private-automation": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@playwright/mcp@latest",
+        "--browser=chrome",
+        "--output-dir=/home/shaharia/playwright_data",
+        "--save-session",
+        "--user-data-dir=/home/shaharia/playwright_userdata"
+      ],
+      "env": {}
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "multi-llm-discussion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Multi-LLM Discussion System MVP",
+  "scripts": {
+    "dev": "pnpm --filter backend dev & pnpm --filter frontend dev",
+    "build": "pnpm --filter backend build && pnpm --filter frontend build",
+    "start": "pnpm --filter backend start"
+  },
+  "keywords": ["llm", "multi-agent", "discussion"],
+  "author": "Shaharia Azam",
+  "license": "MIT"
+}
