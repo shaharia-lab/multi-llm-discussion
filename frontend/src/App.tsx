@@ -11,7 +11,6 @@ const API_BASE_URL = '/api';
 
 function App() {
   const {
-    topic,
     participants,
     messages,
     status,
@@ -29,7 +28,7 @@ function App() {
 
   const eventSourceRef = useRef<EventSource | null>(null);
   const tokenBufferRef = useRef<Map<string, string>>(new Map());
-  const flushTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const flushTimerRef = useRef<number | null>(null);
 
   // Cleanup on unmount
   useEffect(() => {

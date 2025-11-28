@@ -37,10 +37,15 @@ FROM base AS runtime
 
 WORKDIR /app
 
-# Copy built files and dependencies
+# Copy package files for production install
+COPY --from=build /app/backend/package.json ./package.json
+COPY --from=dependencies /app/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Install production dependencies only
+RUN pnpm install --prod --no-lockfile
+
+# Copy built files
 COPY --from=build /app/backend/dist ./dist
-COPY --from=build /app/backend/node_modules ./node_modules
-COPY --from=build /app/backend/package.json ./
 
 # Expose port
 EXPOSE 3001

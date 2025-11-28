@@ -342,3 +342,13 @@ For issues, questions, or suggestions, please [open an issue](https://github.com
 ---
 
 Made with ❤️ by the Shaharia Lab team
+
+
+```bash
+Design me a system to build a scalable and reliable URL shortener service.
+
+Requirements:
+- Access control and authorization
+- 1 million requests per day
+- Generate URL preview during generation
+```
