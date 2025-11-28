@@ -49,13 +49,13 @@ export const DiscussionView: React.FC<DiscussionViewProps> = ({
   }
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="h-full flex flex-col">
       {/* Header with Copy Button */}
-      <div className="bg-white shadow-sm px-6 py-3 flex justify-between items-center flex-shrink-0">
-        <h3 className="font-semibold text-gray-900">Conversation</h3>
+      <div className="bg-white/50 backdrop-blur-sm border-b border-gray-200 px-6 py-4 flex justify-between items-center flex-shrink-0">
+        <h3 className="font-bold text-gray-900 text-lg">Conversation</h3>
         <button
           onClick={copyAsMarkdown}
-          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-hover transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-hover transition-all shadow-sm hover:shadow-md"
         >
           {copied ? (
             <>
@@ -75,18 +75,16 @@ export const DiscussionView: React.FC<DiscussionViewProps> = ({
         </button>
       </div>
 
-      {/* Messages Container - Full height */}
-      <div className="flex-1 overflow-y-auto px-6 py-4">
-        <div className="max-w-5xl mx-auto">
-          {messages.map((message) => (
-            <MessageBubble
-              key={message.id}
-              message={message}
-              participant={getParticipant(message.sender)}
-            />
-          ))}
-          <div ref={messagesEndRef} />
-        </div>
+      {/* Messages Container - Full width with custom scrollbar */}
+      <div className="flex-1 overflow-y-auto px-8 py-6 custom-scrollbar">
+        {messages.map((message) => (
+          <MessageBubble
+            key={message.id}
+            message={message}
+            participant={getParticipant(message.sender)}
+          />
+        ))}
+        <div ref={messagesEndRef} />
       </div>
     </div>
   );

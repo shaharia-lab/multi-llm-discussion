@@ -1,5 +1,5 @@
-export type ModelId = 'gpt-5.1-2025-11-13' | 'gpt-4' | 'gpt-3.5-turbo' | 'claude-sonnet-4-5-20250929' | 'claude-3-opus-20240229';
-export type Provider = 'openai' | 'anthropic';
+export type ModelId = 'gpt-5.1-2025-11-13' | 'gpt-4' | 'gpt-3.5-turbo' | 'claude-sonnet-4-5-20250929' | 'claude-3-opus-20240229' | 'eu.anthropic.claude-sonnet-4-5-20250929-v1:0' | 'eu.anthropic.claude-opus-4-20250514-v1:0';
+export type Provider = 'openai' | 'anthropic' | 'bedrock';
 export type ParticipantRole = 'primary' | 'critic';
 export type DiscussionStatus = 'running' | 'stopped';
 
