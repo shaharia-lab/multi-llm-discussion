@@ -20,12 +20,24 @@ if (!process.env.OPENAI_API_KEY || !process.env.ANTHROPIC_API_KEY) {
   process.exit(1);
 }
 
+// AWS credentials are optional (only needed for Bedrock models)
+// If using Bedrock, ensure AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set
+if (process.env.AWS_ACCESS_KEY_ID || process.env.AWS_SECRET_ACCESS_KEY) {
+  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+    console.error('Error: Both AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY must be set to use Bedrock models');
+    process.exit(1);
+  }
+  console.log('✓ AWS Bedrock credentials configured');
+}
+
 // Initialize services
 const streamManager = new StreamManager();
+const awsRegion = process.env.AWS_REGION || 'eu-west-1';
 const discussionController = new DiscussionController(
   streamManager,
   process.env.OPENAI_API_KEY,
-  process.env.ANTHROPIC_API_KEY
+  process.env.ANTHROPIC_API_KEY,
+  awsRegion
 );
 
 // Health check endpoint

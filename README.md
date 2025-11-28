@@ -8,7 +8,8 @@ A real-time discussion platform that orchestrates conversations between differen
 
 ## Features
 
-- 🤖 **Multi-LLM Support**: GPT-5.1, GPT-4, Claude Sonnet 4.5, and more
+- 🤖 **Multi-LLM Support**: GPT-5.1, GPT-4, Claude Sonnet 4.5, AWS Bedrock models, and more
+- ☁️ **Multiple Providers**: OpenAI, Anthropic, and AWS Bedrock
 - 💬 **Real-time Streaming**: Token-by-token conversation updates via Server-Sent Events
 - 🎭 **Role-based Discussion**: Primary LLM presents ideas, Critic LLM evaluates
 - 👤 **Human Intervention**: Join discussions at any time with your own messages
@@ -29,6 +30,7 @@ A real-time discussion platform that orchestrates conversations between differen
 - Node.js 20 + Express + TypeScript
 - OpenAI SDK
 - Anthropic SDK
+- AWS SDK for Bedrock Runtime
 - Server-Sent Events (SSE)
 
 ## Quick Start
@@ -38,6 +40,7 @@ A real-time discussion platform that orchestrates conversations between differen
 - Node.js 20.x or higher
 - OpenAI API key
 - Anthropic API key
+- AWS credentials (optional, only for Bedrock models)
 
 ### Option 1: Using Docker (Recommended)
 
@@ -95,8 +98,16 @@ A real-time discussion platform that orchestrates conversations between differen
 Create a `.env` file in the root directory:
 
 ```env
+# Required
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
+
+# Optional - Only needed for AWS Bedrock models
+AWS_ACCESS_KEY_ID=AKIA...
+AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=eu-west-1
+
+# Server Configuration
 PORT=3001
 ```
 
@@ -110,6 +121,10 @@ PORT=3001
 ### Anthropic
 - **Claude Sonnet 4.5** (claude-sonnet-4-5-20250929)
 - Claude 3 Opus
+
+### AWS Bedrock
+- **Claude Sonnet 4.5 (Bedrock)** (eu.anthropic.claude-sonnet-4-5-20250929-v1:0)
+- **Claude Opus 4 (Bedrock)** (eu.anthropic.claude-opus-4-20250514-v1:0)
 
 ## How It Works
 
@@ -140,7 +155,7 @@ PORT=3001
 
 - **Watch the Discussion**: Messages will stream in real-time with color-coded bubbles:
   - 🟢 Green: OpenAI models (GPT)
-  - 🟠 Orange: Anthropic models (Claude)
+  - 🟠 Orange: Anthropic models (Claude) and Bedrock models
   - 🟡 Yellow: Your messages
 
 - **Intervene**: Type a message in the input field at the bottom to join the conversation
@@ -173,7 +188,8 @@ multi-llm-discussion/
 │   ├── src/
 │   │   ├── adapters/
 │   │   │   ├── openai.ts          # OpenAI API integration
-│   │   │   └── anthropic.ts       # Anthropic API integration
+│   │   │   ├── anthropic.ts       # Anthropic API integration
+│   │   │   └── bedrock.ts         # AWS Bedrock API integration
 │   │   ├── discussionController.ts # Discussion orchestration
 │   │   ├── streamManager.ts        # SSE stream handling
 │   │   ├── types.ts                # TypeScript interfaces
@@ -220,9 +236,9 @@ Start a new discussion
     },
     {
       "id": "uuid",
-      "modelId": "claude-sonnet-3-5-20241022",
-      "provider": "anthropic",
-      "displayName": "Claude Sonnet",
+      "modelId": "eu.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "provider": "bedrock",
+      "displayName": "Claude Sonnet (Bedrock)",
       "systemPrompt": "...",
       "role": "critic"
     }
@@ -307,6 +323,14 @@ rm -rf node_modules backend/node_modules frontend/node_modules
 pnpm install
 ```
 
+### AWS Bedrock Issues
+- Ensure your AWS IAM user has the following permissions:
+  - `bedrock:InvokeModel`
+  - `bedrock:InvokeModelWithResponseStream`
+- Verify the Bedrock models are enabled in your AWS account (EU West 1 region)
+- Check that AWS credentials are properly set in your `.env` file
+- Ensure the AWS_REGION matches where your Bedrock models are available
+
 ## Architecture
 
 - **Frontend**: React 18 + TypeScript + Vite + Tailwind CSS
@@ -333,6 +357,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Built with [OpenAI API](https://platform.openai.com/)
 - Built with [Anthropic API](https://www.anthropic.com/)
+- Built with [AWS Bedrock](https://aws.amazon.com/bedrock/)
 - UI components styled with [Tailwind CSS](https://tailwindcss.com/)
 
 ## Support
@@ -342,13 +367,3 @@ For issues, questions, or suggestions, please [open an issue](https://github.com
 ---
 
 Made with ❤️ by the Shaharia Lab team
-
-
-```bash
-Design me a system to build a scalable and reliable URL shortener service.
-
-Requirements:
-- Access control and authorization
-- 1 million requests per day
-- Generate URL preview during generation
-```

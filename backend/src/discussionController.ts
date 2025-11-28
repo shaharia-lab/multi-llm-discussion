@@ -3,22 +3,26 @@ import { Discussion, Message, Participant } from './types.js';
 import { StreamManager } from './streamManager.js';
 import { OpenAIAdapter } from './adapters/openai.js';
 import { AnthropicAdapter } from './adapters/anthropic.js';
+import { BedrockAdapter } from './adapters/bedrock.js';
 
 export class DiscussionController {
   private discussions: Map<string, Discussion> = new Map();
   private streamManager: StreamManager;
   private openAIAdapter: OpenAIAdapter;
   private anthropicAdapter: AnthropicAdapter;
+  private bedrockAdapter: BedrockAdapter;
   private discussionLoops: Map<string, boolean> = new Map();
 
   constructor(
     streamManager: StreamManager,
     openaiApiKey: string,
-    anthropicApiKey: string
+    anthropicApiKey: string,
+    awsRegion: string = 'eu-west-1'
   ) {
     this.streamManager = streamManager;
     this.openAIAdapter = new OpenAIAdapter(openaiApiKey);
     this.anthropicAdapter = new AnthropicAdapter(anthropicApiKey);
+    this.bedrockAdapter = new BedrockAdapter(awsRegion);
   }
 
   createDiscussion(topic: string, participants: Participant[]): string {
@@ -156,8 +160,14 @@ export class DiscussionController {
       console.log(`[${discussionId}] Generating response from ${participant.displayName}...`);
 
       // Get the adapter based on provider
-      const adapter =
-        participant.provider === 'openai' ? this.openAIAdapter : this.anthropicAdapter;
+      let adapter;
+      if (participant.provider === 'openai') {
+        adapter = this.openAIAdapter;
+      } else if (participant.provider === 'bedrock') {
+        adapter = this.bedrockAdapter;
+      } else {
+        adapter = this.anthropicAdapter;
+      }
 
       // Stream the response
       const stream = adapter.streamResponse(
